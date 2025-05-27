@@ -1,0 +1,189 @@
+#include <iostream>
+#include <string>
+#include <limits> 
+using namespace std;
+
+class Status {
+public:
+    bool state;
+    string Vitalstate() {
+        string input;
+        cout << "Vital Status: alive (Y/N)" << endl;
+        cin >> input;
+
+     
+        if (input.length() != 1) {
+            cout << "Invalid input. Defaulting to Alive." << endl;
+            return "Alive";
+        }
+
+        char ch = toupper(input[0]);
+        if (ch != 'Y' && ch != 'N') {
+            cout << "Invalid input. Defaulting to Alive." << endl;
+            return "Alive";
+        }
+
+        state = (ch == 'N');
+        if (state) {
+            cout << "Answer following statement ";
+            return "DEAD";
+        }
+        else {
+            return "Alive";
+        }
+    }
+};
+
+class location {
+private:
+    string location;
+    bool burried;
+public:
+    bool Bodylocation() {
+        string input;
+        cout << "\nInput Location of the body " << endl;
+        cout << "Was the body buried (Y/N) " << endl;
+        cin >> input;
+
+        if (input.length() != 1) {
+            cout << "Invalid input. Defaulting to not buried." << endl;
+            burried = false;
+            location = "land";
+            return false;
+        }
+
+        char ch = toupper(input[0]);
+        if (ch != 'Y' && ch != 'N') {
+            cout << "Invalid input. Defaulting to not buried." << endl;
+            burried = false;
+            location = "land";
+            return false;
+        }
+
+        if (ch == 'Y') {
+            cout << "enter the site of the burial (water/land/other): ";
+            cin >> location;
+            if (location != "water" && location != "land" && location != "other") {
+                cout << "Invalid location. Defaulting to land." << endl;
+                location = "land";
+            }
+            burried = true;
+            return true;
+        }
+        else {
+            burried = false;
+            cout << "Enter where the body was found (water/land/other): ";
+            cin >> location;
+            if (location != "water" && location != "land" && location != "other") {
+                cout << "Invalid location. Defaulting to land." << endl;
+                location = "land";
+            }
+            return false;
+        }
+    }
+    void display() {
+        string status = burried ? "Buried" : "Not buried";
+        string EnviormentalCondition = (location == "water") ? "aquatic environment" : "Terrestrial Environment";
+        cout << "Location: " << location << " (" << status << ") in " << EnviormentalCondition << " \n";
+    }
+};
+
+class Environment {
+private:
+    float temperature;
+    float humidity;
+    string terrain;
+public:
+    Environment() {
+        string input;
+        cout << "\nEnter surrounding temperature (°C): ";
+        cin >> input;
+  
+        try {
+            temperature = stof(input);
+        }
+        catch (...) {
+            cout << "Invalid input. Defaulting to 20°C." << endl;
+            temperature = 20.0f;
+        }
+
+        cout << "Enter humidity (%): ";
+        cin >> input;
+        try {
+            humidity = stof(input);
+            if (humidity < 0 || humidity > 100) {
+                throw out_of_range("Invalid range");
+            }
+        }
+        catch (...) {
+            cout << "Invalid input. Defaulting to 50%." << endl;
+            humidity = 50.0f;
+        }
+
+        cout << "Enter terrain (forest/urban/water): ";
+        cin >> terrain;
+        if (terrain != "forest" && terrain != "urban" && terrain != "water") {
+            cout << "Invalid terrain. Defaulting to urban." << endl;
+            terrain = "urban";
+        }
+    }
+
+    void displayEnvironment() const {
+        cout << "Environment: " << temperature << "°C, "
+            << humidity << "%, " << terrain << endl;
+    }
+};
+
+
+
+int main() {
+    cout << "=== FORENSIC DEATH ANALYSIS SYSTEM ===" << endl;
+    cout << "Mandatory Inputs" << endl;
+    cout << "1. Vital Status Check\n";
+    cout << "2. Body Location Analysis\n";
+    cout << "3. Environmental Analysis\n";
+
+    Status vitalStatus;
+    location bodyLocation;
+    Environment env;
+    string result = vitalStatus.Vitalstate();
+    cout << "Vital Status: " << result << endl;
+
+    bodyLocation.Bodylocation();
+    bodyLocation.display();
+
+    env.displayEnvironment();
+
+    cout << "\nOptional Analyses:\n";
+    cout << "1. Gunshot Wound Analysis\n";
+    cout << "2. Arson Analysis\n";
+    cout << "3. Strangulation Analysis\n";
+    cout << "4. Blunt Force Trauma Analysis\n";
+    cout << "5. Stabbing Analysis\n";
+    cout << "6. Decomposition Analysis\n";
+    cout << "7. Exit\n\n";
+
+    while (true) {
+        string input;
+        cout << "\nEnter choice (1-7) upon examination of body: ";
+        cin >> input;
+
+        int choice;
+        try {
+            choice = stoi(input);
+            if (choice < 1 || choice > 7) {
+                throw out_of_range("Invalid choice");
+            }
+        }
+        catch (...) {
+            cout << "Invalid input. Please enter a number between 1 and 7." << endl;
+            continue;
+        }
+
+        switch (choice) {
+         
+        }
+    }
+
+    return 0;
+}
